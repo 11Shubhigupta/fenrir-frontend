@@ -34,9 +34,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ===== INFO + STATS ===== */}
+      {/* ===== SEVERITY STATS ===== */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 space-y-6">
-
         <div className="flex flex-col lg:flex-row lg:justify-between gap-4 text-sm text-gray-600 dark:text-gray-400">
           <div className="flex flex-wrap gap-6">
             <span><strong>Org:</strong> Project X</span>
@@ -57,8 +56,12 @@ export default function Dashboard() {
             { label: "Low Severity", value: 16, color: "text-green-500" }
           ].map((item, index) => (
             <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
-              <p className="text-sm text-gray-500 dark:text-gray-400">{item.label}</p>
-              <h2 className={`text-2xl font-semibold ${item.color}`}>{item.value}</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {item.label}
+              </p>
+              <h2 className={`text-2xl font-semibold ${item.color}`}>
+                {item.value}
+              </h2>
               <p className="text-xs text-red-500 mt-1">
                 +0.9% increase than yesterday
               </p>
@@ -69,12 +72,11 @@ export default function Dashboard() {
 
       {/* ===== SEARCH ===== */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
-
         <div className="flex items-center gap-3 w-full lg:w-1/2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg">
           <Search size={16} className="text-gray-400" />
           <input
             type="text"
-            placeholder="Search scans by name or type..."
+            placeholder="Search scans..."
             className="bg-transparent outline-none w-full text-sm"
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -94,48 +96,46 @@ export default function Dashboard() {
       </div>
 
       {/* ================= DESKTOP TABLE ================= */}
-      <div className="hidden lg:block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl">
-        <div className="overflow-x-auto">
-          <table className="min-w-[900px] w-full text-sm">
-            <thead className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-              <tr>
-                <th className="p-4 text-left">Scan Name</th>
-                <th className="p-4 text-left">Type</th>
-                <th className="p-4 text-left">Status</th>
-                <th className="p-4 text-left">Progress</th>
-                <th className="p-4 text-left">Vulnerability</th>
-                <th className="p-4 text-left">Last Scan</th>
+      <div className="hidden lg:block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+            <tr>
+              <th className="p-4 text-left">Scan Name</th>
+              <th className="p-4 text-left">Type</th>
+              <th className="p-4 text-left">Status</th>
+              <th className="p-4 text-left">Progress</th>
+              <th className="p-4 text-left">Vulnerability</th>
+              <th className="p-4 text-left">Last Scan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((scan) => (
+              <tr
+                key={scan.id}
+                onClick={() => navigate(`/scans`)}
+                className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
+              >
+                <td className="p-4">{scan.name}</td>
+                <td className="p-4">{scan.type}</td>
+                <td className="p-4"><StatusChip status={scan.status} /></td>
+                <td className="p-4"><ProgressBar value={scan.progress} /></td>
+                <td className="p-4 flex gap-2">
+                  <SeverityBadge type="critical" value={5} />
+                  <SeverityBadge type="high" value={12} />
+                  <SeverityBadge type="medium" value={23} />
+                  <SeverityBadge type="low" value={18} />
+                </td>
+                <td className="p-4 text-gray-500 dark:text-gray-400">
+                  {scan.lastScan}
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {filtered.map((scan) => (
-                <tr
-                  key={scan.id}
-                  onClick={() => navigate(`/scans`)}
-                  className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
-                >
-                  <td className="p-4">{scan.name}</td>
-                  <td className="p-4">{scan.type}</td>
-                  <td className="p-4"><StatusChip status={scan.status} /></td>
-                  <td className="p-4"><ProgressBar value={scan.progress} /></td>
-                  <td className="p-4 flex gap-2">
-                    <SeverityBadge type="critical" value={5} />
-                    <SeverityBadge type="high" value={12} />
-                    <SeverityBadge type="medium" value={23} />
-                    <SeverityBadge type="low" value={18} />
-                  </td>
-                  <td className="p-4 text-gray-500 dark:text-gray-400">
-                    {scan.lastScan}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* ================= MOBILE CARDS ================= */}
-      <div className="block lg:hidden space-y-4">
+      {/* ================= MOBILE CARD LIST ================= */}
+      <div className="lg:hidden space-y-4">
         {filtered.map((scan) => (
           <div
             key={scan.id}
@@ -143,11 +143,11 @@ export default function Dashboard() {
             className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 space-y-3 cursor-pointer"
           >
             <div className="flex justify-between">
-              <h3 className="font-semibold text-sm">{scan.name}</h3>
+              <h3 className="font-semibold">{scan.name}</h3>
               <StatusChip status={scan.status} />
             </div>
 
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Type: {scan.type}
             </p>
 

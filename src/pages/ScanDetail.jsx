@@ -1,172 +1,204 @@
-import { scans } from "../data/mockData";
-import { useNavigate } from "react-router-dom";
-import StatusChip from "../components/StatusChip";
-import SeverityBadge from "../components/SeverityBadge";
-import ProgressBar from "../components/ProgressBar";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { Search, Filter, Columns3, Plus } from "lucide-react";
+import {
+  Search,
+  Map,
+  FlaskConical,
+  ShieldCheck,
+  FileText,
+  ChevronDown,
+  X
+} from "lucide-react";
 
-export default function Dashboard() {
-  const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+export default function ScanDetail() {
+  const { id } = useParams();
+  const [tab, setTab] = useState("activity");
 
-  const filtered = scans.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const steps = [
+    { name: "Spidering", icon: Search },
+    { name: "Mapping", icon: Map },
+    { name: "Testing", icon: FlaskConical },
+    { name: "Validating", icon: ShieldCheck },
+    { name: "Reporting", icon: FileText }
+  ];
 
   return (
     <div className="space-y-6">
 
-      {/* ===== HEADER ===== */}
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
-        <div className="text-sm text-gray-500 dark:text-gray-400">
-          Scan / Private Assets /{" "}
-          <span className="text-teal-500 font-medium">New Scan</span>
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-          <button className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg">
-            Export Report
-          </button>
-          <button className="px-4 py-2 text-sm bg-red-500 text-white rounded-lg">
-            Stop Scan
-          </button>
-        </div>
+      {/* ===== Breadcrumb ===== */}
+      <div className="text-sm text-gray-500 dark:text-gray-400">
+        Scan / Private Assets / <span className="text-teal-500">New Scan</span>
       </div>
 
-      {/* ===== SEVERITY STATS ===== */}
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 space-y-6">
-        <div className="flex flex-col lg:flex-row lg:justify-between gap-4 text-sm text-gray-600 dark:text-gray-400">
-          <div className="flex flex-wrap gap-6">
-            <span><strong>Org:</strong> Project X</span>
-            <span><strong>Owner:</strong> Nammagiri</span>
-            <span><strong>Total Scans:</strong> 100</span>
-            <span><strong>Scheduled:</strong> 1000</span>
-            <span><strong>Rescans:</strong> 100</span>
-            <span><strong>Failed Scans:</strong> 100</span>
-          </div>
-          <span className="text-green-500">10 mins ago</span>
-        </div>
+      {/* ===== TOP HEADER CARD ===== */}
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { label: "Critical Severity", value: 86, color: "text-red-500" },
-            { label: "High Severity", value: 16, color: "text-orange-500" },
-            { label: "Medium Severity", value: 26, color: "text-yellow-500" },
-            { label: "Low Severity", value: 16, color: "text-green-500" }
-          ].map((item, index) => (
-            <div key={index} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {item.label}
-              </p>
-              <h2 className={`text-2xl font-semibold ${item.color}`}>
-                {item.value}
-              </h2>
-              <p className="text-xs text-red-500 mt-1">
-                +0.9% increase than yesterday
-              </p>
+        <div className="flex flex-col lg:flex-row items-center gap-10">
+
+          {/* Circular Progress */}
+          <div className="w-28 h-28 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+            <div className="w-20 h-20 rounded-full bg-teal-500 text-white flex items-center justify-center font-semibold">
+              0%
             </div>
-          ))}
+          </div>
+
+          {/* Steps with line */}
+          <div className="flex-1 flex flex-wrap lg:flex-nowrap items-center justify-between relative gap-6">
+
+            <div className="absolute top-5 left-0 right-0 h-[2px] bg-gray-300 dark:bg-gray-700 hidden lg:block"></div>
+
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.name} className="relative z-10 flex flex-col items-center text-sm min-w-[80px]">
+
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      index === 0
+                        ? "bg-teal-500 text-white"
+                        : "bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 text-gray-400"
+                    }`}
+                  >
+                    <Icon size={16} />
+                  </div>
+
+                  <span
+                    className={`mt-2 text-center ${
+                      index === 0 ? "text-teal-500 font-medium" : "text-gray-400"
+                    }`}
+                  >
+                    {step.name}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Info row */}
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm text-gray-600 dark:text-gray-400">
+          <div><p className="text-xs text-gray-400">Scan Type</p><p className="font-medium">Grey Box</p></div>
+          <div><p className="text-xs text-gray-400">Targets</p><p className="font-medium">google.com</p></div>
+          <div><p className="text-xs text-gray-400">Started At</p><p className="font-medium">Nov 22, 09:00AM</p></div>
+          <div><p className="text-xs text-gray-400">Credentials</p><p className="font-medium">2 Active</p></div>
+          <div><p className="text-xs text-gray-400">Files</p><p className="font-medium">Control.pdf</p></div>
+          <div><p className="text-xs text-gray-400">Checksums</p><p className="font-medium text-teal-500">40/350</p></div>
         </div>
       </div>
 
-      {/* ===== SEARCH ===== */}
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
-        <div className="flex items-center gap-3 w-full lg:w-1/2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg">
-          <Search size={16} className="text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search scans..."
-            className="bg-transparent outline-none w-full text-sm"
-            onChange={(e) => setSearch(e.target.value)}
-          />
+      {/* ===== LIVE CONSOLE + FINDINGS ===== */}
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl">
+
+        {/* Console Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+
+          <div className="flex items-center gap-4 text-sm">
+            <span className="text-teal-500 font-medium">Live Scan Console</span>
+            <span className="text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded-full">
+              Running...
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 text-gray-400">
+            <ChevronDown size={16} className="cursor-pointer" />
+            <X size={16} className="cursor-pointer" />
+          </div>
         </div>
 
-        <div className="flex flex-wrap gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 border rounded-lg text-sm dark:border-gray-700">
-            <Filter size={16} /> Filter
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 border rounded-lg text-sm dark:border-gray-700">
-            <Columns3 size={16} /> Column
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-teal-500 text-white rounded-lg text-sm">
-            <Plus size={16} /> New scan
-          </button>
-        </div>
-      </div>
+        {/* Main Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3">
 
-      {/* ================= DESKTOP TABLE ================= */}
-      <div className="hidden lg:block bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-            <tr>
-              <th className="p-4 text-left">Scan Name</th>
-              <th className="p-4 text-left">Type</th>
-              <th className="p-4 text-left">Status</th>
-              <th className="p-4 text-left">Progress</th>
-              <th className="p-4 text-left">Vulnerability</th>
-              <th className="p-4 text-left">Last Scan</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((scan) => (
-              <tr
-                key={scan.id}
-                onClick={() => navigate(`/scans`)}
-                className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
+          {/* Console Section */}
+          <div className="lg:col-span-2 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-800">
+
+            {/* Tabs */}
+            <div className="flex gap-6 px-6 pt-4 text-sm">
+              <button
+                onClick={() => setTab("activity")}
+                className={`pb-2 ${
+                  tab === "activity"
+                    ? "border-b-2 border-teal-500 text-teal-500"
+                    : "text-gray-500"
+                }`}
               >
-                <td className="p-4">{scan.name}</td>
-                <td className="p-4">{scan.type}</td>
-                <td className="p-4"><StatusChip status={scan.status} /></td>
-                <td className="p-4"><ProgressBar value={scan.progress} /></td>
-                <td className="p-4 flex gap-2">
-                  <SeverityBadge type="critical" value={5} />
-                  <SeverityBadge type="high" value={12} />
-                  <SeverityBadge type="medium" value={23} />
-                  <SeverityBadge type="low" value={18} />
-                </td>
-                <td className="p-4 text-gray-500 dark:text-gray-400">
-                  {scan.lastScan}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                Activity Log
+              </button>
 
-      {/* ================= MOBILE CARD LIST ================= */}
-      <div className="lg:hidden space-y-4">
-        {filtered.map((scan) => (
-          <div
-            key={scan.id}
-            onClick={() => navigate(`/scans`)}
-            className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 space-y-3 cursor-pointer"
-          >
-            <div className="flex justify-between">
-              <h3 className="font-semibold">{scan.name}</h3>
-              <StatusChip status={scan.status} />
+              <button
+                onClick={() => setTab("verification")}
+                className={`pb-2 ${
+                  tab === "verification"
+                    ? "border-b-2 border-teal-500 text-teal-500"
+                    : "text-gray-500"
+                }`}
+              >
+                Verification Loops
+              </button>
             </div>
 
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Type: {scan.type}
-            </p>
-
-            <ProgressBar value={scan.progress} />
-
-            <div className="flex flex-wrap gap-2">
-              <SeverityBadge type="critical" value={5} />
-              <SeverityBadge type="high" value={12} />
-              <SeverityBadge type="medium" value={23} />
-              <SeverityBadge type="low" value={18} />
+            {/* Console Body */}
+            <div className="bg-black text-green-400 font-mono text-xs p-6 h-[320px] lg:h-[420px] overflow-y-auto">
+              {tab === "activity" ? (
+                <>
+                  <p>[09:00] I'll begin a systematic penetration test...</p>
+                  <p>[09:01] Target online.</p>
+                  <p>[09:02] Apache 2.4.65 on port 80 detected.</p>
+                  <p>[09:03] Found login page.</p>
+                  <p>[09:04] Testing credentials...</p>
+                  <p>[09:05] IDOR vulnerability discovered.</p>
+                </>
+              ) : (
+                <p>Verification loops running...</p>
+              )}
             </div>
-
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              Last Scan: {scan.lastScan}
-            </p>
           </div>
-        ))}
-      </div>
 
+          {/* Finding Log */}
+          <div className="p-6 space-y-4">
+
+            <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+              Finding Log
+            </div>
+
+            <FindingCard type="Critical" color="red" />
+            <FindingCard type="High" color="orange" />
+            <FindingCard type="Medium" color="yellow" />
+          </div>
+        </div>
+
+        {/* Bottom Stats Bar */}
+        <div className="flex flex-col lg:flex-row gap-4 lg:justify-between lg:items-center px-6 py-3 text-xs border-t border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400">
+
+          <div className="flex flex-wrap gap-4">
+            <span>Sub-Agents: 0</span>
+            <span>Parallel Executions: 2</span>
+            <span>Operations: 1</span>
+          </div>
+
+          <div className="flex flex-wrap gap-4">
+            <span className="text-red-500">Critical: 0</span>
+            <span className="text-orange-500">High: 0</span>
+            <span className="text-yellow-500">Medium: 0</span>
+            <span className="text-green-500">Low: 0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FindingCard({ type, color }) {
+  return (
+    <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+      <span className={`bg-${color}-500 text-white px-2 py-1 rounded-full text-xs`}>
+        {type}
+      </span>
+      <h4 className="font-semibold mt-2 text-sm">
+        SQL Injection in Authentication Endpoint
+      </h4>
+      <p className="text-xs text-gray-500 mt-1">
+        Time-based blind SQL injection confirmed.
+      </p>
     </div>
   );
 }
