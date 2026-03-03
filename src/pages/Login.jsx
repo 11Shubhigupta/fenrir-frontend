@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import metaLogo from "../assets/meta.png";
+
 export default function Login() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
@@ -14,21 +15,22 @@ export default function Login() {
   return (
     <div className="relative min-h-screen w-screen overflow-hidden">
 
-     {/* Background */}
+      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#0f2d33] to-[#0CC8A8]" />
       <div className="absolute bottom-[-300px] right-[-300px] w-[1100px] h-[1100px] bg-[radial-gradient(circle,#ff7a18,transparent_65%)] opacity-80 blur-[40px]" />
 
-      <div className="relative z-10 flex min-h-screen">
+      {/* Main Wrapper */}
+      <div className="relative z-10 flex flex-col lg:flex-row min-h-screen">
 
-        {/* ================= LEFT SIDE (EXACT CONTENT) ================= */}
-        <div className="w-1/2 p-24 flex flex-col justify-center text-white">
+        {/* ================= LEFT SIDE ================= */}
+        <div className="w-full lg:w-1/2 px-6 py-12 lg:p-24 flex flex-col justify-center text-white">
 
-          <div className="flex items-center gap-2 mb-20">
+          <div className="flex items-center gap-2 mb-12 lg:mb-20">
             <div className="w-3 h-3 bg-[#0CC8A8] rounded-full"></div>
             <span className="text-lg font-semibold tracking-wide">aps</span>
           </div>
 
-          <h1 className="text-[42px] font-semibold leading-tight mb-10">
+          <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-semibold leading-tight mb-8 lg:mb-10">
             Expert level Cybersecurity <br />
             in <span className="text-[#0CC8A8]">hours</span> not weeks.
           </h1>
@@ -40,7 +42,7 @@ export default function Login() {
           </div>
 
           {/* Trustpilot Section */}
-          <div className="mt-16 text-sm">
+          <div className="mt-12 lg:mt-16 text-sm">
             <div className="flex items-center gap-2 text-[#0CC8A8]">
               <Star size={16} fill="#0CC8A8" strokeWidth={0} />
               <span>Trustpilot</span>
@@ -49,13 +51,12 @@ export default function Login() {
               Rated 4.5/5.0 <span className="text-gray-500">(100k+ reviews)</span>
             </p>
           </div>
-
         </div>
 
         {/* ================= RIGHT CARD ================= */}
-        <div className="w-1/2 flex items-center justify-center">
+        <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-10">
 
-          <div className="bg-white px-10 py-4 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] w-[420px]">
+          <div className="bg-white px-6 sm:px-10 py-6 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.45)] w-full max-w-[420px]">
 
             <h2 className="text-2xl font-semibold text-center mb-2">
               {isLogin ? "Log in" : "Sign up"}
@@ -81,6 +82,7 @@ export default function Login() {
               )}
 
               <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0CC8A8] outline-none" placeholder="Email address*" />
+
               <input type="password" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0CC8A8] outline-none" placeholder="Password (8+ characters)*" />
 
               {!isLogin && (
@@ -100,7 +102,7 @@ export default function Login() {
               </button>
             </form>
 
-            {/* =====  ICONS ===== */}
+            {/* ===== ICONS ===== */}
             <div className="flex gap-4 mt-6">
 
               {/* Apple */}
@@ -122,10 +124,10 @@ export default function Login() {
               </button>
 
               {/* Meta */}
-             <button className="flex-1 bg-[#3B82F6] py-1 rounded-full flex items-center justify-center">
+              <button className="flex-1 bg-[#3B82F6] py-1 rounded-full flex items-center justify-center">
                 <img
-                  
-                     src={metaLogo}
+                  src={metaLogo}
+                  alt="Meta"
                   className="w-10 h-10"
                 />
               </button>

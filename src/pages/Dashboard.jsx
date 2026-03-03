@@ -18,33 +18,32 @@ export default function Dashboard() {
     <div className="space-y-6">
 
       {/* ===== BREADCRUMB + ACTIONS BOX ===== */}
-<div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 flex justify-between items-center">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
 
-  {/* Left Breadcrumb */}
-  <div className="text-sm text-gray-500 dark:text-gray-400">
-    Scan / Private Assets /{" "}
-    <span className="text-teal-500 font-medium">New Scan</span>
-  </div>
+        {/* Left Breadcrumb */}
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          Scan / Private Assets /{" "}
+          <span className="text-teal-500 font-medium">New Scan</span>
+        </div>
 
-  {/* Right Buttons */}
-  <div className="flex gap-3">
-    <button className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition">
-      Export Report
-    </button>
+        {/* Right Buttons */}
+        <div className="flex flex-wrap gap-3">
+          <button className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+            Export Report
+          </button>
 
-    <button className="px-4 py-2 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
-      Stop Scan
-    </button>
-  </div>
-
-</div>
+          <button className="px-4 py-2 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
+            Stop Scan
+          </button>
+        </div>
+      </div>
 
       {/* ===== COMBINED INFO + SEVERITY BOX ===== */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6 space-y-6">
 
         {/* ORG INFO ROW */}
-        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-          <div className="flex gap-8">
+        <div className="flex flex-col lg:flex-row lg:justify-between gap-4 text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex flex-wrap gap-6">
             <span><strong>Org:</strong> Project X</span>
             <span><strong>Owner:</strong> Nammagiri</span>
             <span><strong>Total Scans:</strong> 100</span>
@@ -56,7 +55,7 @@ export default function Dashboard() {
         </div>
 
         {/* SEVERITY STATS */}
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             { label: "Critical Severity", value: 86, color: "text-red-500" },
             { label: "High Severity", value: 16, color: "text-orange-500" },
@@ -82,10 +81,10 @@ export default function Dashboard() {
       </div>
 
       {/* ===== SEARCH + ACTIONS ===== */}
-      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 flex items-center justify-between">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-4 flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
 
         {/* SEARCH */}
-        <div className="flex items-center gap-3 w-1/2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg">
+        <div className="flex items-center gap-3 w-full lg:w-1/2 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg">
           <Search size={16} className="text-gray-400" />
           <input
             type="text"
@@ -96,7 +95,7 @@ export default function Dashboard() {
         </div>
 
         {/* RIGHT BUTTONS */}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
           <button className="flex items-center gap-2 px-4 py-2 border rounded-lg text-sm dark:border-gray-700">
             <Filter size={16} />
             Filter
@@ -116,46 +115,50 @@ export default function Dashboard() {
 
       {/* ===== TABLE ===== */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-            <tr>
-              <th className="p-4 text-left">Scan Name</th>
-              <th className="p-4 text-left">Type</th>
-              <th className="p-4 text-left">Status</th>
-              <th className="p-4 text-left">Progress</th>
-              <th className="p-4 text-left">Vulnerability</th>
-              <th className="p-4 text-left">Last Scan</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filtered.map((scan) => (
-              <tr
-                key={scan.id}
-                onClick={() => navigate(`/scans`)}
-                className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
-              >
-                <td className="p-4">{scan.name}</td>
-                <td className="p-4">{scan.type}</td>
-                <td className="p-4">
-                  <StatusChip status={scan.status} />
-                </td>
-                <td className="p-4">
-                  <ProgressBar value={scan.progress} />
-                </td>
-                <td className="p-4 flex gap-2">
-                  <SeverityBadge type="critical" value={5} />
-                  <SeverityBadge type="high" value={12} />
-                  <SeverityBadge type="medium" value={23} />
-                  <SeverityBadge type="low" value={18} />
-                </td>
-                <td className="p-4 text-gray-500 dark:text-gray-400">
-                  {scan.lastScan}
-                </td>
+        
+        <div className="overflow-x-auto">
+          <table className="min-w-[800px] w-full text-sm">
+            <thead className="bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+              <tr>
+                <th className="p-4 text-left">Scan Name</th>
+                <th className="p-4 text-left">Type</th>
+                <th className="p-4 text-left">Status</th>
+                <th className="p-4 text-left">Progress</th>
+                <th className="p-4 text-left">Vulnerability</th>
+                <th className="p-4 text-left">Last Scan</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {filtered.map((scan) => (
+                <tr
+                  key={scan.id}
+                  onClick={() => navigate(`/scans`)}
+                  className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer"
+                >
+                  <td className="p-4">{scan.name}</td>
+                  <td className="p-4">{scan.type}</td>
+                  <td className="p-4">
+                    <StatusChip status={scan.status} />
+                  </td>
+                  <td className="p-4">
+                    <ProgressBar value={scan.progress} />
+                  </td>
+                  <td className="p-4 flex gap-2">
+                    <SeverityBadge type="critical" value={5} />
+                    <SeverityBadge type="high" value={12} />
+                    <SeverityBadge type="medium" value={23} />
+                    <SeverityBadge type="low" value={18} />
+                  </td>
+                  <td className="p-4 text-gray-500 dark:text-gray-400">
+                    {scan.lastScan}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
       </div>
 
     </div>

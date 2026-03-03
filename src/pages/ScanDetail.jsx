@@ -33,7 +33,7 @@ export default function ScanDetail() {
       {/* ===== TOP HEADER CARD ===== */}
       <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
 
-        <div className="flex items-center gap-10">
+        <div className="flex flex-col lg:flex-row items-center gap-10">
 
           {/* Circular Progress */}
           <div className="w-28 h-28 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
@@ -43,14 +43,14 @@ export default function ScanDetail() {
           </div>
 
           {/* Steps with line */}
-          <div className="flex-1 flex items-center justify-between relative">
+          <div className="flex-1 flex flex-wrap lg:flex-nowrap items-center justify-between relative gap-6">
 
-            <div className="absolute top-5 left-0 right-0 h-[2px] bg-gray-300 dark:bg-gray-700"></div>
+            <div className="absolute top-5 left-0 right-0 h-[2px] bg-gray-300 dark:bg-gray-700 hidden lg:block"></div>
 
             {steps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <div key={step.name} className="relative z-10 flex flex-col items-center text-sm">
+                <div key={step.name} className="relative z-10 flex flex-col items-center text-sm min-w-[80px]">
 
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center ${
@@ -63,7 +63,7 @@ export default function ScanDetail() {
                   </div>
 
                   <span
-                    className={`mt-2 ${
+                    className={`mt-2 text-center ${
                       index === 0 ? "text-teal-500 font-medium" : "text-gray-400"
                     }`}
                   >
@@ -76,7 +76,7 @@ export default function ScanDetail() {
         </div>
 
         {/* Info row */}
-        <div className="mt-6 grid grid-cols-6 text-sm text-gray-600 dark:text-gray-400">
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm text-gray-600 dark:text-gray-400">
           <div><p className="text-xs text-gray-400">Scan Type</p><p className="font-medium">Grey Box</p></div>
           <div><p className="text-xs text-gray-400">Targets</p><p className="font-medium">google.com</p></div>
           <div><p className="text-xs text-gray-400">Started At</p><p className="font-medium">Nov 22, 09:00AM</p></div>
@@ -106,10 +106,10 @@ export default function ScanDetail() {
         </div>
 
         {/* Main Grid */}
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-1 lg:grid-cols-3">
 
           {/* Console Section */}
-          <div className="col-span-2 border-r border-gray-200 dark:border-gray-800">
+          <div className="lg:col-span-2 border-b lg:border-b-0 lg:border-r border-gray-200 dark:border-gray-800">
 
             {/* Tabs */}
             <div className="flex gap-6 px-6 pt-4 text-sm">
@@ -137,7 +137,7 @@ export default function ScanDetail() {
             </div>
 
             {/* Console Body */}
-            <div className="bg-black text-green-400 font-mono text-xs p-6 h-[420px] overflow-y-auto">
+            <div className="bg-black text-green-400 font-mono text-xs p-6 h-[320px] lg:h-[420px] overflow-y-auto">
               {tab === "activity" ? (
                 <>
                   <p>[09:00] I'll begin a systematic penetration test...</p>
@@ -167,15 +167,15 @@ export default function ScanDetail() {
         </div>
 
         {/* Bottom Stats Bar */}
-        <div className="flex justify-between items-center px-6 py-3 text-xs border-t border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400">
+        <div className="flex flex-col lg:flex-row gap-4 lg:justify-between lg:items-center px-6 py-3 text-xs border-t border-gray-200 dark:border-gray-800 text-gray-500 dark:text-gray-400">
 
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-4">
             <span>Sub-Agents: 0</span>
             <span>Parallel Executions: 2</span>
             <span>Operations: 1</span>
           </div>
 
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-4">
             <span className="text-red-500">Critical: 0</span>
             <span className="text-orange-500">High: 0</span>
             <span className="text-yellow-500">Medium: 0</span>
