@@ -1,0 +1,147 @@
+# Cybersecurity Scan Dashboard
+
+A modular and scalable frontend application simulating a cybersecurity scan management platform.  
+Developed as part of an internship assignment to demonstrate clean architecture, reusable components, theme management, and structured routing.
+
+---
+
+# 🏗 Architecture Overview
+
+The project follows a layered structure:
+
+- **Pages Layer**
+  - Login
+  - Dashboard
+  - ScanDetail
+
+- **Component Layer**
+  - StatusChip
+  - SeverityBadge
+  - ProgressBar
+  - ThemeToggle
+
+- **Layout Layer**
+  - AppLayout (Sidebar + Content Wrapper)
+
+- **Context Layer**
+  - ThemeContext (Dark/Light mode management)
+
+- **Data Layer**
+  - mockData.js (Simulated API responses)
+
+Routing is implemented using nested routes to preserve layout consistency across pages.
+
+---
+
+# 🛠 Tech Stack
+
+## Core
+- React (Vite)
+- React Router DOM
+
+## Styling
+- Tailwind CSS
+- Dark mode using Tailwind `"class"` strategy
+
+## UI & UX
+- Framer Motion (animations & transitions)
+- Lucide React (icons)
+
+## State Management
+- React Context API (global theme state)
+- useState for local UI state
+
+---
+
+# ⚙ Key Implementation Details
+
+## Routing
+- `/` → Login
+- `/dashboard` → Dashboard
+- `/scan/:id` → ScanDetail
+
+Nested routing ensures shared layout persistence.
+
+## Theme Management
+Dark mode is handled via React Context.  
+The `dark` class is dynamically applied to the root HTML element, activating Tailwind's dark variants globally.
+
+## Data Handling
+Scan data is stored in `mockData.js`.  
+Filtering is implemented using array methods to simulate real API behavior.
+
+## Component Reusability
+Severity badges, status chips, and progress bars are standalone components to ensure scalability and maintainability.
+
+---
+
+# 📦 Setup Instructions
+
+## 1. Clone the Repository
+
+```bash
+git clone <your-repository-url>
+cd <project-folder>
+```
+
+## 2. Install Dependencies
+
+```bash
+npm install
+```
+
+## 3. Run Development Server
+
+```bash
+npm run dev
+```
+
+Application runs at:
+
+```
+http://localhost:5173
+```
+
+## 4. Build for Production
+
+```bash
+npm run build
+```
+
+---
+
+# ⚠ Known Limitations
+
+- No backend integration (mock data only)
+- Authentication is UI-based
+- No persistent global state
+- No API error handling
+- Console output is simulated
+- No pagination or server-side filtering
+- No automated testing setup
+
+---
+
+# 🔮 Future Improvements
+
+- REST API integration
+- JWT-based authentication
+- Role-based access control
+- WebSocket-based live console updates
+- Pagination & sorting support
+- Unit testing using Jest / React Testing Library
+
+---
+
+# 📌 Internship Submission Note
+
+This project demonstrates:
+
+- Clean modular architecture
+- Reusable UI component design
+- Nested routing implementation
+- Context-based theme management
+- State-driven rendering
+- Modern UI/UX practices
+
+The structure is production-ready for backend integration.
